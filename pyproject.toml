@@ -1,0 +1,18 @@
+[project]
+name = "og26"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "konstantin.geidarov",email = "konstantin.geydarov@gmail.com"}
+]
+requires-python = "^3.14"
+dependencies = [
+    "python-dotenv (>=1.2.2,<2.0.0)",
+    "loguru (>=0.7.3,<0.8.0)",
+    "sqlalchemy (>=2.0.51,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
