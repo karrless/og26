@@ -17,4 +17,5 @@ GOOGLE_CREDENTIALS_PATH = get_env("GOOGLE_CREDENTIALS_PATH")
 
 SPREADSHEET_ID = get_env("SPREADSHEET_ID")
 
-VK_TOKEN = get_env("VK_TOKEN") # Сделать несколько апи, см. прошлый проект
+VK_API1 = get_env("VK_API1")
+VK_API2 = get_env("VK_API2")

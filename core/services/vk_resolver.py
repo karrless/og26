@@ -3,9 +3,9 @@ from typing import Optional
 
 from vkbottle.api import API
 
-from config import VK_TOKEN
+from config import VK_API1
 
-_api = API(VK_TOKEN)
+_api = API(VK_API1)
 _LINK_RE = re.compile(r"vk\.com/([a-zA-Z0-9_.]+)")
 
 
