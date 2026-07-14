@@ -1,8 +1,8 @@
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
-from core.db.models.faq import Question, Subtopic, Topic
-from core.db.repositories.base import BaseRepository
+from core.db.models import Question, Subtopic, Topic
+from core.db.repositories import BaseRepository
 
 
 class QuestionRepository(BaseRepository[Question]):

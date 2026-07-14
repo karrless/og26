@@ -3,8 +3,8 @@ from typing import Optional
 from sqlalchemy import select, update
 
 from core.db import Base
-from core.db.models.user import User
-from core.db.repositories.base import BaseRepository
+from core.db.models import User
+from core.db.repositories import BaseRepository
 
 
 class UserRepository(BaseRepository[User]):

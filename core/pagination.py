@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from typing import Callable, Generic, Sequence, TypeVar
 
-from core.content.keyboards import Button
+from vkbottle import KeyboardButtonColor
+
+from core.content.keyboards import Button, MAX_ROWS_DEFAULT
 
 T = TypeVar("T")
 
@@ -16,10 +18,14 @@ class Page(Generic[T]):
 
 
 class Paginator(Generic[T]):
-    def __init__(self, items: Sequence[T], page_size: int = 6):
+    def __init__(self, items: Sequence[T], columns: int = 1, reserved_rows: int = 2, max_rows: int = MAX_ROWS_DEFAULT):
+        """reserved_rows — сколько строк уйдёт под навигацию + (опционально) отмену,
+        считает вызывающий код (обычно 1 под нав-кнопки + 1 под отмену)."""
         self.items = list(items)
-        self.page_size = page_size
-        self.total_pages = max(1, (len(self.items) + page_size - 1) // page_size)
+        self.columns = columns
+        rows_for_items = max(1, max_rows - reserved_rows)
+        self.page_size = rows_for_items * columns
+        self.total_pages = max(1, (len(self.items) + self.page_size - 1) // self.page_size)
 
     def get_page(self, page: int) -> Page[T]:
         page = max(1, min(page, self.total_pages))
@@ -36,8 +42,10 @@ class Paginator(Generic[T]):
 def build_paginated_keyboard(
         page: Page[T],
         to_button: Callable[[T], Button],
+
         prefix: str,
         columns: int = 1,
+
 ) -> list[list[Button]]:
     rows: list[list[Button]] = []
     row: list[Button] = []
@@ -51,9 +59,9 @@ def build_paginated_keyboard(
 
     nav: list[Button] = []
     if page.has_prev:
-        nav.append(Button("« Назад", f"{prefix}:page:{page.page - 1}"))
+        nav.append(Button("« Назад", f"{prefix}:page:{page.page - 1}", KeyboardButtonColor.SECONDARY))
     if page.has_next:
-        nav.append(Button("Вперёд »", f"{prefix}:page:{page.page + 1}"))
+        nav.append(Button("Вперёд »", f"{prefix}:page:{page.page + 1}", KeyboardButtonColor.SECONDARY))
     if nav:
         rows.append(nav)
     return rows
