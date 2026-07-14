@@ -17,6 +17,7 @@ router = Router()
 form_service = FormService(SheetsService())
 
 _DIRECTION_ENTRIES = list(DIRECTIONS.items())
+_DIRECTION_BY_ALIAS = {alias: full for full, alias in DIRECTIONS.items()}
 NAV_PREV = "◀️ Назад"
 NAV_NEXT = "Вперёд ▶️"
 
@@ -113,7 +114,7 @@ async def process_direction(message: Message, state: FSMContext):
         await state.update_data(direction_page=new_page)
         return await message.answer(texts.FORM_ASK_DIRECTION, reply_markup=keyboard)
 
-    direction = DIRECTIONS.get(message.text)
+    direction = _DIRECTION_BY_ALIAS.get(message.text)
     if direction is None:
         return await message.answer(texts.FORM_NOT_FOUND)
 
