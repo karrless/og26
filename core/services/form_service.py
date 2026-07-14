@@ -37,8 +37,6 @@ class FormService:
             raise FormValidationError(FORM_VK_FAILED)
         if vk_id is None:
             raise FormValidationError(FORM_VK_FAILED)
-
-
         return vk_id
 
     @staticmethod

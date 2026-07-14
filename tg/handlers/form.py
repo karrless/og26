@@ -64,7 +64,7 @@ async def process_fio(message: Message, state: FSMContext):
 
 @router.message(FormStates.vk_link)
 async def process_vk_link(message: Message, state: FSMContext):
-    vk_id = await form_service.resolve_vk_link(message.text)
+    vk_id = await form_service.validate_vk_link(message.text)
     if vk_id is None:
         return await message.answer(texts.FORM_VK_FAILED)
 
