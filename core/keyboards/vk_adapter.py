@@ -1,7 +1,15 @@
-from vkbottle import Keyboard, Text
+from vkbottle import Keyboard, KeyboardButtonColor, Text
 
-from core.content.keyboards import Button, MAX_ROWS_DEFAULT, MAX_ROWS_INLINE, MAX_BUTTONS_PER_ROW
+from core.content.keyboards import Button, ButtonColor, MAX_ROWS_DEFAULT, MAX_ROWS_INLINE, MAX_BUTTONS_PER_ROW
 from core.content.texts import CANCEL_BUTTON
+
+_COLOR_MAP = {
+    ButtonColor.PRIMARY: KeyboardButtonColor.PRIMARY,
+    ButtonColor.SECONDARY: KeyboardButtonColor.SECONDARY,
+    ButtonColor.POSITIVE: KeyboardButtonColor.POSITIVE,
+    ButtonColor.NEGATIVE: KeyboardButtonColor.NEGATIVE,
+    None: None
+}
 
 
 def build_vk_keyboard(rows: list[list[Button]], inline: bool = False, cancel: bool = False) -> Keyboard:
@@ -18,6 +26,7 @@ def build_vk_keyboard(rows: list[list[Button]], inline: bool = False, cancel: bo
     kb = Keyboard(inline=inline)
     for row in rows:
         for btn in row:
-            kb.add(Text(btn.text, payload={"action": btn.action}), color=btn.color)
+            color = _COLOR_MAP.get(btn.color)
+            kb.add(Text(btn.text, payload={"action": btn.action}), color=color)
         kb.row()
     return kb

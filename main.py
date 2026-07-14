@@ -22,5 +22,6 @@ if __name__ == '__main__':
     if args.bot == "tg":
         logger.critical("TG bot is not supported")
     elif args.bot == "vk":
-        from vk import bot as vk_bot
-        vk_bot.run()
+        from vk import bot
+
+        bot.run()

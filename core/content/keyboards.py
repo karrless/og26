@@ -1,7 +1,6 @@
 from dataclasses import dataclass
+from enum import Enum
 from typing import Optional
-
-from vkbottle import KeyboardButtonColor
 
 from core.content.texts import FORM_BUTTON, CANCEL_BUTTON
 
@@ -9,23 +8,32 @@ MAX_ROWS_DEFAULT = 10
 MAX_ROWS_INLINE = 6
 MAX_BUTTONS_PER_ROW = 4
 
+
+class ButtonColor(Enum):
+    PRIMARY = "primary"
+    SECONDARY = "secondary"
+    POSITIVE = "positive"
+    NEGATIVE = "negative"
+
+
 @dataclass
 class Button:
     text: str
     action: str
-    color: Optional[KeyboardButtonColor] = None # TODO: сделать что то общее и потом резолвить это для тг и вк
+    color: ButtonColor | None = None
+
 
 MENU_KEYBOARD = [
-    [Button(FORM_BUTTON, "form:start", KeyboardButtonColor.PRIMARY)]
+    [Button(FORM_BUTTON, "form:start", ButtonColor.PRIMARY)]
 ]
 
 CANCEL_KEYS = [
-    Button(CANCEL_BUTTON, 'cancel', KeyboardButtonColor.SECONDARY)
+    Button(CANCEL_BUTTON, "cancel", ButtonColor.SECONDARY)
 ]
 
 YES_NO_KEYBOARD = [
-    [Button("Да", "form:yes_no:Да", KeyboardButtonColor.PRIMARY),
-     Button("Нет", "form:yes_no:Нет", KeyboardButtonColor.PRIMARY)],
+    [Button("Да", "form:yes_no:Да", ButtonColor.PRIMARY),
+     Button("Нет", "form:yes_no:Нет", ButtonColor.PRIMARY)],
 ]
 
 DIRECTIONS: dict[str, str] = {
