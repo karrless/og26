@@ -1,9 +1,9 @@
 ﻿import argparse
+import asyncio
 import sys
 
 from loguru import logger
 import config
-
 
 logger.remove()
 logger.add(
@@ -20,7 +20,15 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.bot == "tg":
-        logger.critical("TG bot is not supported")
+        from tg import bot, dp
+
+
+        async def main():
+            await bot.delete_webhook(drop_pending_updates=True)
+            await dp.start_polling(bot)
+
+        asyncio.run(main())
+
     elif args.bot == "vk":
         from vk import bot
 
