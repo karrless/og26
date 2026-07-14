@@ -9,10 +9,12 @@ from core.content.texts import CANCEL_BUTTON
 from core.keyboards import build_tg_keyboard
 
 router = Router()
+defaultRouter = Router()
 
 
 @router.message(CommandStart())
 @router.message(F.text == CANCEL_BUTTON)
+@defaultRouter.message()
 async def start_message(message: Message, state: FSMContext):
     await state.clear()
     await message.answer(texts.MENU_TG, reply_markup=build_tg_keyboard(MENU_KEYBOARD))

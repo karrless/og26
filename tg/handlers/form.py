@@ -88,7 +88,7 @@ async def process_number(message: Message, state: FSMContext):
 @router.message(FormStates.yes_no)
 async def process_yes_no(message: Message, state: FSMContext):
     try:
-        yes_no = form_service.validate_yes_no(message.text)
+        yes_no = await form_service.validate_yes_no(message.text)
     except FormValidationError as e:
         return await message.answer(str(e))
 

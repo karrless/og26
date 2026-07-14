@@ -25,6 +25,7 @@ if __name__ == '__main__':
 
         async def main():
             await bot.delete_webhook(drop_pending_updates=True)
+            logger.info('TG бот запущен')
             await dp.start_polling(bot)
 
         asyncio.run(main())
@@ -32,4 +33,5 @@ if __name__ == '__main__':
     elif args.bot == "vk":
         from vk import bot
 
+        logger.info('VK бот запущен')
         bot.run()
