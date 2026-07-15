@@ -21,3 +21,5 @@ VK_API1 = get_env("VK_API1")
 VK_API2 = get_env("VK_API2")
 
 TG_TOKEN = get_env("TG_TOKEN")
+
+TG_SOCKS = get_env("TG_SOCKS")
