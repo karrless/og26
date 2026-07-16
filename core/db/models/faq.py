@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy import BigInteger, CheckConstraint, ForeignKey
+from sqlalchemy import BigInteger, CheckConstraint, ForeignKey, Index, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from core.db import Base
@@ -13,7 +13,6 @@ class Topic(Base):
     title: Mapped[str]
 
     subtopics: Mapped[list["Subtopic"]] = relationship(back_populates="topic")
-    questions: Mapped[list["Question"]] = relationship(back_populates="topic")
 
 
 class Subtopic(Base):
@@ -36,6 +35,7 @@ class Question(Base):
             "(topic_id IS NOT NULL) <> (subtopic_id IS NOT NULL)",
             name="ck_question_parent",
         ),
+        Index("uq_question_subtopic", "subtopic_id", unique=True, postgresql_where=text("subtopic_id IS NOT NULL")),
     )
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
@@ -43,15 +43,8 @@ class Question(Base):
     answer: Mapped[str]
     attachment: Mapped[Optional[str]] = mapped_column(nullable=True)
 
-    topic_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("topics.id"),
-        nullable=True,
-    )
-
     subtopic_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("subtopics.id"),
         nullable=True,
     )
-
-    topic: Mapped[Optional["Topic"]] = relationship(back_populates="questions")
     subtopic: Mapped[Optional["Subtopic"]] = relationship(back_populates="questions")

@@ -1,0 +1,1 @@
+﻿from .faq_init import seed_faq

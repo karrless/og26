@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-from core.content.texts import FORM_BUTTON, CANCEL_BUTTON
+from core.content.texts import FORM_BUTTON, CANCEL_BUTTON, FAQ_BUTTON, BACK_BUTTON, OWN_QUESTION_BUTTON
 
 MAX_ROWS_DEFAULT = 10
 MAX_ROWS_INLINE = 6
@@ -24,11 +24,20 @@ class Button:
 
 
 MENU_KEYBOARD = [
-    [Button(FORM_BUTTON, "form:start", ButtonColor.PRIMARY)]
+    [Button(FORM_BUTTON, "form:start", ButtonColor.POSITIVE)],
+    [Button(FAQ_BUTTON, "faq:start")]
 ]
 
 CANCEL_KEYS = [
     Button(CANCEL_BUTTON, "cancel", ButtonColor.SECONDARY)
+]
+
+BACK_KEYS = [
+    Button(BACK_BUTTON, "back", ButtonColor.SECONDARY)
+]
+
+OWN_QUESTION_KEYS = [
+    Button(OWN_QUESTION_BUTTON, 'own_question', ButtonColor.SECONDARY)
 ]
 
 YES_NO_KEYBOARD = [

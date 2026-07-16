@@ -2,7 +2,7 @@ import re
 from typing import Optional
 
 from vkbottle.api import API
-from vkbottle_types.codegen.objects import UsersFields
+from vkbottle_types.codegen.objects import UsersFields, UsersUserFull
 
 from config import VK_API1
 
@@ -40,3 +40,16 @@ async def resolve_vk_id(raw: str) -> Optional[str]:
     if domain and not _DEFAULT_DOMAIN_RE.match(domain):
         return f"@{domain}"
     return f"@id{user.id}"
+
+async def get_vk_user(vk_id: int) -> Optional[UsersUserFull]:
+    users = await _api.users.get(
+        user_ids=[vk_id],
+        fields=[
+            UsersFields.DOMAIN,
+        ]
+    )
+
+    if not users:
+        return None
+
+    return users[0]

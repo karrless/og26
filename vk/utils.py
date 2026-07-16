@@ -5,11 +5,11 @@ from vkbottle.bot import Message
 from vkbottle.framework.labeler import BotLabeler
 from vkbottle.tools import WaiterMachine
 
-from core.content.keyboards import Button
+from core.content.keyboards import Button, ButtonColor
 from core.content.texts import CANCEL_BUTTON
 from core.keyboards import build_vk_keyboard
 from core.pagination import Paginator, build_paginated_keyboard
-from core.errors import CancelInputError
+from core.errors import CancelInputError, GoBackError, ExtraActionSelected
 
 
 async def ask_text(bl: BotLabeler, wm: WaiterMachine, message: Message, validator, keyboard: Optional[Keyboard] = None) -> str:
@@ -45,7 +45,11 @@ async def ask_paginated_choice(bl: BotLabeler,
                                items: dict[str, str],
                                prefix: str,
                                columns: int = 1,
-                               color: KeyboardButtonColor = KeyboardButtonColor.PRIMARY
+                               color: ButtonColor = ButtonColor.PRIMARY,
+                               back: bool = False,
+                               cancel: bool = True,
+                               extra_buttons: list[Button] | None = None,
+                               extra_context: dict | None = None,
                                ) -> Any | None:
     """
 
@@ -57,16 +61,24 @@ async def ask_paginated_choice(bl: BotLabeler,
     :param prefix: Префикс пагинации
     :param columns: Количество столбцов кнопок
     :param color: Цвет, который будет у кнопок
+    :param cancel:
+    :param back:
     :return:
     """
     entries = list(items.items())
     paginator = Paginator(entries, columns=columns)
     page_num = 1
+    extra_actions = {b.action for b in (extra_buttons or [])}
 
     while True:
         page = paginator.get_page(page_num)
-        rows = build_paginated_keyboard(page, lambda entry: Button(entry[1], f"{prefix}:pick:{entry[0]}", color), prefix=prefix, columns=columns)
-        await message.answer(text, keyboard=build_vk_keyboard(rows, cancel=True))
+        rows = build_paginated_keyboard(
+            page,
+            lambda entry: Button(entry[1], f"{prefix}:pick:{entry[0]}", color),
+            prefix=prefix, columns=columns)
+        if extra_buttons:
+            rows.append(extra_buttons)
+        await message.answer(text, keyboard=build_vk_keyboard(rows, cancel=cancel, back=back))
 
         m, _ = await wm.wait(bl.message_view, message)
         payload = m.get_payload_json() or {}
@@ -74,6 +86,10 @@ async def ask_paginated_choice(bl: BotLabeler,
 
         if action == "cancel":
             raise CancelInputError()
+        if action == "back":
+            raise GoBackError()
+        if action in extra_actions:
+            raise ExtraActionSelected(action, context=extra_context)
         if action.startswith(f"{prefix}:pick:"):
             return action.split(":", 2)[2]
         if action.startswith(f"{prefix}:page:"):

@@ -1,3 +1,10 @@
-﻿from . import form, menu
+﻿from . import form, faq, support
 
-labelers = [form.bl, menu.bl, menu.default_bl]
+from . import menu
+
+labelers = [
+    support.bl,
+    menu.bl,
+    form.bl,
+    faq.bl,
+    menu.default_bl]

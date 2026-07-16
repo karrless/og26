@@ -4,7 +4,7 @@ from .user import UserRepository
 
 __all__ = [
     'BaseRepository',
-    Base,
-    QuestionRepository, SubtopicRepository, TopicRepository,
-    UserRepository,
+    'Base',
+    'QuestionRepository', 'SubtopicRepository', 'TopicRepository',
+    'UserRepository',
 ]

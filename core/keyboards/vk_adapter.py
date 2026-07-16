@@ -1,7 +1,9 @@
 from vkbottle import Keyboard, KeyboardButtonColor, Text
 
-from core.content.keyboards import Button, ButtonColor, MAX_ROWS_DEFAULT, MAX_ROWS_INLINE, MAX_BUTTONS_PER_ROW
-from core.content.texts import CANCEL_BUTTON
+from core.content import CANCEL_KEYS
+from core.content.keyboards import Button, ButtonColor, MAX_ROWS_DEFAULT, MAX_ROWS_INLINE, MAX_BUTTONS_PER_ROW, \
+    BACK_KEYS
+from core.content.texts import CANCEL_BUTTON, BACK_BUTTON
 
 _COLOR_MAP = {
     ButtonColor.PRIMARY: KeyboardButtonColor.PRIMARY,
@@ -12,9 +14,20 @@ _COLOR_MAP = {
 }
 
 
-def build_vk_keyboard(rows: list[list[Button]], inline: bool = False, cancel: bool = False) -> Keyboard:
+def build_vk_keyboard(
+        rows: list[list[Button]],
+        inline: bool = False,
+        cancel: bool = False,
+        back: bool = False
+) -> Keyboard:
+    extra_keys = []
+    if back:
+        extra_keys = BACK_KEYS
     if cancel:
-        rows = [*rows, [Button(CANCEL_BUTTON, "cancel")]]
+        extra_keys = [*extra_keys, *CANCEL_KEYS]
+
+    if len(extra_keys):
+        rows = [*rows, extra_keys]
 
     max_rows = MAX_ROWS_INLINE if inline else MAX_ROWS_DEFAULT
     if len(rows) > max_rows:

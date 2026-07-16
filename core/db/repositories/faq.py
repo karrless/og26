@@ -8,13 +8,6 @@ from core.db.repositories import BaseRepository
 class QuestionRepository(BaseRepository[Question]):
     model = Question
 
-    async def get_by_topic(self, topic_id: int) -> list[Question]:
-        """Получить все вопросы, принадлежащие указанной теме"""
-        result = await self.session.execute(
-            select(Question).where(Question.topic_id == topic_id)
-        )
-        return list(result.scalars().all())
-
     async def get_by_subtopic(self, subtopic_id: int) -> list[Question]:
         """Получить все вопросы, принадлежащие указанной подтеме"""
         result = await self.session.execute(
@@ -50,7 +43,6 @@ class TopicRepository(BaseRepository[Topic]):
         result = await self.session.execute(
             select(Topic)
             .options(
-                selectinload(Topic.questions),
                 selectinload(Topic.subtopics).selectinload(Subtopic.questions),
             )
             .where(Topic.id == topic_id)
@@ -62,7 +54,6 @@ class TopicRepository(BaseRepository[Topic]):
             все темы, их вопросы, подтемы и вопросы подтем"""
         result = await self.session.execute(
             select(Topic).options(
-                selectinload(Topic.questions),
                 selectinload(Topic.subtopics).selectinload(Subtopic.questions),
             )
         )
