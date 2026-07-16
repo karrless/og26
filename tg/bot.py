@@ -4,10 +4,10 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from config import TG_TOKEN, TG_SOCKS
+from config import TG_TOKEN
 
 session = AiohttpSession(
-    proxy=TG_SOCKS
+    proxy="socks5://127.0.0.1:51066"
 )
 
 bot = Bot(
