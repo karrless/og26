@@ -1,4 +1,4 @@
-from vkbottle import Keyboard, KeyboardButtonColor, Text
+from vkbottle import Keyboard, KeyboardButtonColor, Text, Callback
 
 from core.content import CANCEL_KEYS
 from core.content.keyboards import Button, ButtonColor, MAX_ROWS_DEFAULT, MAX_ROWS_INLINE, MAX_BUTTONS_PER_ROW, \
@@ -37,9 +37,11 @@ def build_vk_keyboard(
             raise ValueError(f"Слишком много кнопок в строке: {len(row)} > {MAX_BUTTONS_PER_ROW}")
 
     kb = Keyboard(inline=inline)
+    button_cls = Callback if inline else Text
+
     for row in rows:
         for btn in row:
             color = _COLOR_MAP.get(btn.color)
-            kb.add(Text(btn.text, payload={"action": btn.action}), color=color)
+            kb.add(button_cls(btn.text, payload={"action": btn.action}), color=color)
         kb.row()
     return kb

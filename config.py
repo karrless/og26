@@ -23,3 +23,6 @@ VK_API2 = get_env("VK_API2")
 TG_TOKEN = get_env("TG_TOKEN")
 
 TG_SOCKS = get_env("TG_SOCKS")
+
+VK_MODERATOR_CHAT_PEER_ID = get_env("VK_MODERATOR_CHAT_PEER_ID")
+MODER_LIMIT = int(get_env("MODER_LIMIT"))

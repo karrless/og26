@@ -16,7 +16,7 @@ from tg.handlers import menu
 router = Router()
 form_service = FormService(SheetsService())
 
-_DIRECTION_ENTRIES = list(DIRECTIONS.items())
+_DIRECTION_ENTRIES = sorted(DIRECTIONS.items(), key=lambda item: item[1])
 _DIRECTION_BY_ALIAS = {alias: full for full, alias in DIRECTIONS.items()}
 NAV_PREV = "◀️ Назад"
 NAV_NEXT = "Вперёд ▶️"

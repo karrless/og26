@@ -10,7 +10,7 @@ from core.content.texts import FAQ_BUTTON
 from core.db.models import Topic, User
 from core.errors import CancelInputError, GoBackError, ExtraActionSelected
 from core.keyboards import build_vk_keyboard
-from core.services import FaqService
+from core.services import FaqService, SupportService
 from vk.fsm import SupportStates, state_dispenser, wm
 from vk.handlers import menu
 from vk.handlers.support import get_own_question
@@ -22,7 +22,7 @@ bl.auto_rules = [PeerRule(from_chat=False)]
 bl.vbml_ignore_case = True
 bl.message_view.register_middleware(UserMiddleware)
 faq_service = FaqService()
-
+support_service = SupportService()
 
 def _as_button_map(items, id_attr="id", title_attr="title") -> dict[str, str]:
     """dict {id_как_строка: алиас_для_кнопки (обрезан до 40 символов)}"""
@@ -67,6 +67,9 @@ async def faq(message: Message, user: User):
                 continue
     # задать свой вопрос
     except ExtraActionSelected as ex:
+        if await support_service.has_reached_daily_limit(user.id):
+            await message.answer(texts.SUPPORT_LIMIT_REACHED)
+            return await menu.start_message(message, user)
         return await get_own_question(message, ex.context.get('topic'), user)
     # какая то хуйня, дай бог не произойдет
     except Exception as ex:
