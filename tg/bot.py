@@ -14,7 +14,7 @@ bot = Bot(
     token=TG_TOKEN,
     default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN),
     storage=MemoryStorage(),
-    session=session
+    # session=session
 )
 
 storage = MemoryStorage()

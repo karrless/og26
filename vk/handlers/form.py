@@ -7,7 +7,7 @@ from core.content import texts, CANCEL_KEYS
 from core.content.keyboards import DIRECTIONS, YES_NO_KEYBOARD
 from core.content.texts import FORM_BUTTON
 from core.keyboards import build_vk_keyboard
-from core.services.form_service import FormValidationError, FormService, FormData
+from core.services.form_service import FormService, FormData
 from core.services import SheetsService
 from core.errors import CancelInputError
 from vk.fsm import wm

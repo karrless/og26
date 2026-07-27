@@ -7,3 +7,7 @@ class FormStates(StatesGroup):
     number = State()
     yes_no = State()
     direction = State()
+
+class FaqStates(StatesGroup):
+    topics = State()
+    subtopics = State()

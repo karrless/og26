@@ -31,7 +31,7 @@ if __name__ == '__main__':
         asyncio.run(main())
 
     elif args.bot == "vk":
-        from vk import bot
+        from vk.bot import bot
 
         logger.info('VK бот запущен')
         bot.run()

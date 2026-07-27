@@ -1,3 +1,3 @@
-﻿from . import menu, form
+﻿from . import menu, form, faq
 
-routers = [form.router, menu.router, menu.defaultRouter]
+routers = [form.router, faq.router, menu.router]
