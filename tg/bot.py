@@ -4,17 +4,17 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from config import TG_TOKEN
+from config import TG_TOKEN, TG_SOCKS
 
 session = AiohttpSession(
-    proxy="socks5://127.0.0.1:51066"
+    proxy=TG_SOCKS
 )
 
 bot = Bot(
     token=TG_TOKEN,
     default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN),
     storage=MemoryStorage(),
-    # session=session
+    session=session
 )
 
 storage = MemoryStorage()
