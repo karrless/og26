@@ -1,6 +1,7 @@
 import json
 import random
-from datetime import datetime, timezone
+from datetime import datetime, timezone, time
+from zoneinfo import ZoneInfo
 
 import config
 from config import MODER_LIMIT
@@ -127,3 +128,13 @@ class SupportService:
             "conversation_message_ids": [ticket.source_conversation_message_id],
             "is_reply": False,
         })
+
+    @staticmethod
+    def is_within_working_hours() -> bool:
+
+        MSK = ZoneInfo("Europe/Moscow")
+        SUPPORT_HOURS_START = time(10, 0)
+        SUPPORT_HOURS_END = time(22, 0)
+
+        now = datetime.now(MSK).time()
+        return SUPPORT_HOURS_START <= now < SUPPORT_HOURS_END
