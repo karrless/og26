@@ -69,10 +69,10 @@ async def faq(message: Message, user: User):
     except ExtraActionSelected as ex:
         if not support_service.is_within_working_hours():
             await message.answer(texts.SUPPORT_OUTSIDE_HOURS)
-            return await menu.start_message(message, user)
+            return await faq(message, user)
         if await support_service.has_reached_daily_limit(user.id):
             await message.answer(texts.SUPPORT_LIMIT_REACHED)
-            return await menu.start_message(message, user)
+            return await faq(message, user)
         return await get_own_question(message, ex.context.get('topic'), user)
     # какая то хуйня, дай бог не произойдет
     except Exception as ex:
