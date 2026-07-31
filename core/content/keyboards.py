@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-from core.content.texts import FORM_BUTTON, CANCEL_BUTTON, FAQ_BUTTON, BACK_BUTTON, OWN_QUESTION_BUTTON, FAQ_ASK_VK_URL
+from core.content.texts import FORM_BUTTON, CANCEL_BUTTON, FAQ_BUTTON, BACK_BUTTON, OWN_QUESTION_BUTTON, FAQ_ASK_VK_URL, \
+    TG_OWN_QUESTION_BUTTON
 
 MAX_ROWS_DEFAULT = 10
 MAX_ROWS_INLINE = 6
@@ -42,7 +43,7 @@ OWN_QUESTION_KEYS = [
 ]
 
 ASK_QUESTION_LINK_KEYS = [
-    Button("Задать вопрос", url=FAQ_ASK_VK_URL)
+    Button(TG_OWN_QUESTION_BUTTON, url=FAQ_ASK_VK_URL)
 ]
 
 YES_NO_KEYBOARD = [

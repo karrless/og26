@@ -28,6 +28,7 @@ def FAQ_ASK_SUBTOPIC(topic: str, subtopic_titles: list[str]) -> str:
 
 
 OWN_QUESTION_BUTTON="Задать свой вопрос"
+TG_OWN_QUESTION_BUTTON="Задать свой вопрос в ВК"
 
 SUPPORT_ASK_QUESTION = "Задай свой вопрос, и тебе ответят в ближайшее время"
 SUPPORT_ENTERED="Мы приняли твой вопрос и в скором времени ответим"
