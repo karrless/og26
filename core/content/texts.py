@@ -21,7 +21,9 @@ FAQ_BUTTON = "База знаний"
 
 FAQ_EMPTY = "База знаний не найдена"
 FAQ_ASK_TOPIC = "Выбери тему, которая тебя интересует"
-FAQ_ASK_SUBTOPIC = lambda topic: f'Что конкретно тебя интересует по теме "{topic}"?'
+def FAQ_ASK_SUBTOPIC(topic: str, subtopic_titles: list[str]) -> str:
+    listing = "\n".join(f"• {title}" for title in subtopic_titles)
+    return f'Что конкретно тебя интересует по теме «{topic}»?\n\n{listing}'
 
 
 
@@ -54,3 +56,6 @@ SUPPORT_OUTSIDE_HOURS = (
     "Модераторы отвечают на вопросы с 10:00 до 22:00 по Москве.\n"
     "Напиши, пожалуйста, в это время — а пока можешь поискать ответ в базе знаний"
 )
+
+
+TG_ASK_VK = 'Если остались вопросы, можешь задать их в [группе вк](https://vk.com/im?media=&sel=-169197316)'

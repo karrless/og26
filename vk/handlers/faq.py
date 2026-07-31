@@ -52,7 +52,9 @@ async def faq(message: Message, user: User):
             try:
                 while True:
                     subtopic_id = await ask_paginated_choice(
-                        bl, wm, message, texts.FAQ_ASK_SUBTOPIC(topic.title), _as_button_map(topic.subtopics),
+                        bl, wm, message,
+                        texts.FAQ_ASK_SUBTOPIC(topic.title, [s.title for s in topic.subtopics]),  # добавлен список
+                        _as_button_map(topic.subtopics),
                         columns=2,
                         prefix="subtopic", back=True,
                         extra_buttons=OWN_QUESTION_KEYS,

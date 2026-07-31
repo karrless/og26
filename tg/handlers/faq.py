@@ -74,13 +74,22 @@ async def on_topic_action(callback: CallbackQuery, state: FSMContext):
             return await edit(callback, "\n\n".join(text_parts), reply_markup=build_tg_inline_keyboard(rows, cancel=True))
 
         sub_entries = list(_as_button_map(topic.subtopics).items())
-        await state.update_data(faq_subtopic_entries=sub_entries, faq_subtopic_page=1, faq_current_topic_title=topic.title)
+        subtopic_titles = [s.title for s in topic.subtopics]  # полные названия, без обрезки под 40 символов
+
+        await state.update_data(
+            faq_subtopic_entries=sub_entries,
+            faq_subtopic_page=1,
+            faq_current_topic_title=topic.title,
+            faq_subtopic_titles=subtopic_titles,  # новое
+        )
         await state.set_state(FaqStates.subtopics)
 
         page = Paginator(sub_entries, columns=2).get_page(1)
-        rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic", columns=2)
-        header = texts.FAQ_ASK_SUBTOPIC(topic.title)
+        rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic",
+                                        columns=2)
+        header = texts.FAQ_ASK_SUBTOPIC(topic.title, subtopic_titles)
         text_parts.append(header)
+        text_parts.append(texts.TG_ASK_VK)
         await edit(callback, "\n\n".join(text_parts), reply_markup=build_tg_inline_keyboard(rows, back=True, cancel=True))
 
 
@@ -104,13 +113,18 @@ async def on_subtopic_action(callback: CallbackQuery, state: FSMContext):
 
     sub_entries = data["faq_subtopic_entries"]
     topic_title = data["faq_current_topic_title"]
+    subtopic_titles = data["faq_subtopic_titles"]
 
     if action.startswith("subtopic:page:"):
         page_num = int(action.split(":")[-1])
         await state.update_data(faq_subtopic_page=page_num)
         page = Paginator(sub_entries, columns=2).get_page(page_num)
-        rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic", columns=2)
-        return await edit(callback, texts.FAQ_ASK_SUBTOPIC(topic_title), reply_markup=build_tg_inline_keyboard(rows, back=True, cancel=True))
+        rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic",
+                                        columns=2)
+        return await edit(
+            callback, texts.FAQ_ASK_SUBTOPIC(topic_title, subtopic_titles),
+            reply_markup=build_tg_inline_keyboard(rows, back=True, cancel=True),
+        )
 
     if action.startswith("subtopic:pick:"):
         subtopic_id = int(action.split(":")[-1])
@@ -118,6 +132,7 @@ async def on_subtopic_action(callback: CallbackQuery, state: FSMContext):
         answer_text = subtopic.questions[0].answer if subtopic and subtopic.questions else texts.FAQ_NOT_FOUND
 
         page = Paginator(sub_entries, columns=2).get_page(data.get("faq_subtopic_page", 1))
-        rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic", columns=2)
-        text = f"{answer_text}\n\n{texts.FAQ_ASK_SUBTOPIC(topic_title)}"
+        rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic",
+                                        columns=2)
+        text = f"{answer_text}\n\n{texts.FAQ_ASK_SUBTOPIC(topic_title, subtopic_titles)}\n\n{texts.TG_ASK_VK}"
         return await edit(callback, text, reply_markup=build_tg_inline_keyboard(rows, back=True, cancel=True))
