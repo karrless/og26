@@ -41,7 +41,12 @@ def build_tg_inline_keyboard(
         if len(row) > MAX_BUTTONS_PER_ROW:
             raise ValueError(f"Слишком много кнопок в строке: {len(row)} > {MAX_BUTTONS_PER_ROW}")
 
+    def _to_tg_button(btn: Button) -> InlineKeyboardButton:
+        if btn.url:
+            return InlineKeyboardButton(text=btn.text, url=btn.url)
+        return InlineKeyboardButton(text=btn.text, callback_data=btn.action)
+
     return InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=btn.text, callback_data=btn.action) for btn in row]
+        [_to_tg_button(btn) for btn in row]
         for row in rows
     ])

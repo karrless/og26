@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-from core.content.texts import FORM_BUTTON, CANCEL_BUTTON, FAQ_BUTTON, BACK_BUTTON, OWN_QUESTION_BUTTON
+from core.content.texts import FORM_BUTTON, CANCEL_BUTTON, FAQ_BUTTON, BACK_BUTTON, OWN_QUESTION_BUTTON, FAQ_ASK_VK_URL
 
 MAX_ROWS_DEFAULT = 10
 MAX_ROWS_INLINE = 6
@@ -21,6 +21,7 @@ class Button:
     text: str
     action: str
     color: ButtonColor | None = None
+    url: Optional[str] = None
 
 
 MENU_KEYBOARD = [
@@ -38,6 +39,10 @@ BACK_KEYS = [
 
 OWN_QUESTION_KEYS = [
     Button(OWN_QUESTION_BUTTON, 'own_question', ButtonColor.SECONDARY)
+]
+
+ASK_QUESTION_LINK_KEYS = [
+    Button("Задать вопрос", url=FAQ_ASK_VK_URL)
 ]
 
 YES_NO_KEYBOARD = [

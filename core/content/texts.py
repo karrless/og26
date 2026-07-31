@@ -58,4 +58,4 @@ SUPPORT_OUTSIDE_HOURS = (
 )
 
 
-TG_ASK_VK = 'Если остались вопросы, можешь задать их в [группе вк](https://vk.com/im?media=&sel=-169197316)'
+FAQ_ASK_VK_URL = "https://vk.com/im?media=&sel=-169197316"

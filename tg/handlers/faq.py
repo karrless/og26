@@ -6,7 +6,7 @@ from core.content import texts
 from core.content.texts import FAQ_BUTTON, CANCEL_BUTTON
 from core.keyboards import build_tg_inline_keyboard
 from core.pagination import Paginator, build_paginated_keyboard
-from core.content.keyboards import Button
+from core.content.keyboards import Button, ASK_QUESTION_LINK_KEYS
 from core.services import FaqService
 from tg.states import FaqStates
 from tg.utils import reply, edit
@@ -68,7 +68,6 @@ async def on_topic_action(callback: CallbackQuery, state: FSMContext):
         text_parts = []
 
         if not topic.subtopics:
-            text_parts.append(texts.FAQ_ASK_TOPIC)
             page = Paginator(entries, columns=2).get_page(data.get("faq_topic_page", 1))
             rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"topic:pick:{e[0]}"), prefix="topic", columns=2)
             return await edit(callback, "\n\n".join(text_parts), reply_markup=build_tg_inline_keyboard(rows, cancel=True))
@@ -87,9 +86,9 @@ async def on_topic_action(callback: CallbackQuery, state: FSMContext):
         page = Paginator(sub_entries, columns=2).get_page(1)
         rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic",
                                         columns=2)
+        rows.append(ASK_QUESTION_LINK_KEYS)
         header = texts.FAQ_ASK_SUBTOPIC(topic.title, subtopic_titles)
         text_parts.append(header)
-        text_parts.append(texts.TG_ASK_VK)
         await edit(callback, "\n\n".join(text_parts), reply_markup=build_tg_inline_keyboard(rows, back=True, cancel=True))
 
 
@@ -121,6 +120,7 @@ async def on_subtopic_action(callback: CallbackQuery, state: FSMContext):
         page = Paginator(sub_entries, columns=2).get_page(page_num)
         rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic",
                                         columns=2)
+        rows.append(ASK_QUESTION_LINK_KEYS)
         return await edit(
             callback, texts.FAQ_ASK_SUBTOPIC(topic_title, subtopic_titles),
             reply_markup=build_tg_inline_keyboard(rows, back=True, cancel=True),
@@ -134,5 +134,6 @@ async def on_subtopic_action(callback: CallbackQuery, state: FSMContext):
         page = Paginator(sub_entries, columns=2).get_page(data.get("faq_subtopic_page", 1))
         rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic",
                                         columns=2)
+        rows.append(ASK_QUESTION_LINK_KEYS)
         text = f"{answer_text}\n\n{texts.FAQ_ASK_SUBTOPIC(topic_title, subtopic_titles)}\n\n{texts.TG_ASK_VK}"
         return await edit(callback, text, reply_markup=build_tg_inline_keyboard(rows, back=True, cancel=True))

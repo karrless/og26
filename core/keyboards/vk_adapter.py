@@ -1,4 +1,4 @@
-from vkbottle import Keyboard, KeyboardButtonColor, Text, Callback
+from vkbottle import Keyboard, KeyboardButtonColor, Text, Callback, OpenLink
 
 from core.content import CANCEL_KEYS
 from core.content.keyboards import Button, ButtonColor, MAX_ROWS_DEFAULT, MAX_ROWS_INLINE, MAX_BUTTONS_PER_ROW, \
@@ -41,7 +41,10 @@ def build_vk_keyboard(
 
     for row in rows:
         for btn in row:
-            color = _COLOR_MAP.get(btn.color)
-            kb.add(button_cls(btn.text, payload={"action": btn.action}), color=color)
+            if btn.url:
+                kb.add(OpenLink(btn.url, btn.text))
+            else:
+                color = _COLOR_MAP.get(btn.color)
+                kb.add(button_cls(btn.text, payload={"action": btn.action}), color=color)
         kb.row()
     return kb
