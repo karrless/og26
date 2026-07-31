@@ -135,5 +135,5 @@ async def on_subtopic_action(callback: CallbackQuery, state: FSMContext):
         rows = build_paginated_keyboard(page, lambda e: Button(e[1], f"subtopic:pick:{e[0]}"), prefix="subtopic",
                                         columns=2)
         rows.append(ASK_QUESTION_LINK_KEYS)
-        text = f"{answer_text}\n\n{texts.FAQ_ASK_SUBTOPIC(topic_title, subtopic_titles)}\n\n{texts.TG_ASK_VK}"
+        text = f"{answer_text}\n\n{texts.FAQ_ASK_SUBTOPIC(topic_title, subtopic_titles)}"
         return await edit(callback, text, reply_markup=build_tg_inline_keyboard(rows, back=True, cancel=True))
