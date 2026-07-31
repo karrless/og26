@@ -19,7 +19,7 @@ class ButtonColor(Enum):
 @dataclass
 class Button:
     text: str
-    action: str
+    action: str = ""
     color: ButtonColor | None = None
     url: Optional[str] = None
 
