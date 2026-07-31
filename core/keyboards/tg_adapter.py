@@ -1,7 +1,7 @@
 # core/keyboards/tg_adapter.py
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-from core.content.keyboards import Button, MAX_ROWS_DEFAULT, MAX_BUTTONS_PER_ROW, ButtonColor
+from core.content.keyboards import Button, MAX_ROWS_DEFAULT, MAX_BUTTONS_PER_ROW, ButtonColor, BACK_KEYS, CANCEL_KEYS
 from core.content.texts import CANCEL_BUTTON, BACK_BUTTON
 
 _COLOR_MAP = {
@@ -30,11 +30,14 @@ def build_tg_keyboard(rows: list[list[Button]], cancel: bool = False) -> ReplyKe
 def build_tg_inline_keyboard(
         rows: list[list[Button]], cancel: bool = False, back: bool = False
 ) -> InlineKeyboardMarkup:
+    extra_keys = []
     if back:
-        rows = [*rows, [Button(BACK_BUTTON, "back")]]
+        extra_keys = BACK_KEYS
     if cancel:
-        rows = [*rows, [Button(CANCEL_BUTTON, "cancel")]]
+        extra_keys = [*extra_keys, *CANCEL_KEYS]
 
+    if len(extra_keys):
+        rows = [*rows, extra_keys]
     if len(rows) > MAX_ROWS_DEFAULT:
         raise ValueError(f"Слишком много строк: {len(rows)} > {MAX_ROWS_DEFAULT}")
     for row in rows:
