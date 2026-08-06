@@ -6,24 +6,27 @@ from vkbottle.tools import WaiterMachine
 from core.content import texts, CANCEL_KEYS
 from core.content.keyboards import DIRECTIONS, YES_NO_KEYBOARD
 from core.content.texts import FORM_BUTTON
+from core.db.models import User
 from core.keyboards import build_vk_keyboard
 from core.services.form_service import FormService, FormData
 from core.services import SheetsService
 from core.errors import CancelInputError
 from vk.fsm import wm
 from vk.handlers import menu
+from vk.middlewares.user import UserMiddleware
 from vk.utils import ask_text, ask_button, ask_paginated_choice
 
 bl = BotLabeler()
 bl.auto_rules = [PeerRule(from_chat=False)]
 bl.vbml_ignore_case = True
+bl.message_view.register_middleware(UserMiddleware)
 
 form_service = FormService(SheetsService())  # создаётся один раз
 
 
 @bl.message(command="form")
 @bl.message(text=FORM_BUTTON.lower())
-async def form(message: Message):
+async def form(message: Message, user: User):
     cancel_keys = build_vk_keyboard([CANCEL_KEYS])
     await message.answer(texts.FORM_ASK_FIO, keyboard=cancel_keys)
     fio = await ask_text(bl, wm, message, form_service.validate_fio, cancel_keys)
@@ -42,4 +45,4 @@ async def form(message: Message):
     data = FormData(fio=fio, vk_id=vk_id, number=number, yes_no=yes_no, direction=str(direction))
     ok = await form_service.submit(data)
     await message.answer(texts.FORM_DONE if ok else texts.FORM_NOT_FOUND)
-    await menu.start_message(message)
+    await menu.start_message(message, user)
