@@ -94,7 +94,7 @@ async def roommates(message: Message, user: User):
     except CancelInputError:
         pass
     finally:
-        await menu.start_message(message)
+        await menu.start_message(message, user)
 
 
 _background_tasks: set[asyncio.Task] = set()
