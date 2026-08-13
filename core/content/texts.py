@@ -12,12 +12,13 @@ FORM_NUMBER_FAILED = "Не распознал номер, повтори поп�
 FORM_ASK_YES_NO = "Лидер школы?"
 FORM_YES_NO_FAILED = "Не распознал ответ, напиши 'Да' или 'Нет'"
 FORM_ASK_DIRECTION = "Выбери направление"
-FORM_DONE = "Спасибо! Данные записаны"
+FORM_DONE = "Спасибо! Данные записаны. Теперь можешь ждать, с тобой свяжутся в ближайшее время"
 FORM_NOT_FOUND = "Такого направления не существует"
+FORM_SUBMITTING = "Принял, записываю данные"
 
 FORM_BUTTON = "Найдите меня"
 
-FAQ_BUTTON = "База знаний"
+FAQ_BUTTON = "Вопросы и ответы"
 
 FAQ_EMPTY = "База знаний не найдена"
 FAQ_ASK_TOPIC = "Выбери тему, которая тебя интересует"
@@ -60,3 +61,14 @@ SUPPORT_OUTSIDE_HOURS = (
 
 
 FAQ_ASK_VK_URL = "https://vk.com/im?media=&sel=-169197316"
+
+ROOMMATES_BUTTON = "Мои соседи"
+ROOMMATES_ASK_CIPHER = "Пришли уникальный номер"
+ROOMMATES_CIPHER_INVALID = "Номер должен быть числом, попробуй ещё раз."
+ROOMMATES_CIPHER_NOT_FOUND = "Такой номер не найден в списке заселения"
+ROOMMATES_CIPHER_TAKEN = "Этот номер уже привязан к другому аккаунту"
+ROOMMATES_FILL_FORM_REMINDER = f'Кстати, вижу, ты не заполнял форму - пожалуйста, заполни её через "{FORM_BUTTON}"'
+ROOMMATES_NEW_NEIGHBOR = "🎉 У тебя новый сосед: {mention}"
+ROOMMATES_LIST_HEADER = "Твои соседи:"
+ROOMMATES_YOUR_ROOM = "Ты живёшь в общежитии «{comfort}», комната {room_number}"
+ROOMMATES_NONE_YET = "Пока никто из твоих соседей не зарегистрировался в боте"

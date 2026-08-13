@@ -53,3 +53,17 @@ class SheetsService:
 
     async def append_form(self, direction: str, fio: str, vk_id: int, number: str, yes_no: str) -> bool:
         return await asyncio.to_thread(self._append_sync, direction, fio, vk_id, number, yes_no)
+
+    def _find_cipher_sync(self, cipher: str) -> bool:
+        for sheet in self._spreadsheet.worksheets():
+            header_row = sheet.row_values(HEADER_ROW)
+            block_starts = [idx for idx, value in enumerate(header_row, start=1) if value.strip()]
+            for start_col in block_starts:
+                number_col = start_col + 2  # ФИО, ID, НОМЕР, Да/Нет
+                for value in sheet.col_values(number_col)[DATA_START_ROW - 1:]:
+                    if value.strip() == cipher.strip():
+                        return True
+        return False
+
+    async def find_cipher(self, cipher: str) -> bool:
+        return await asyncio.to_thread(self._find_cipher_sync, cipher)

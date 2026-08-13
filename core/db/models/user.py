@@ -14,5 +14,4 @@ class User(Base):
     tg_id: Mapped[Optional[int]] = mapped_column(unique=True, nullable=True)
     name: Mapped[Optional[str]] = mapped_column(nullable=True)
     surname: Mapped[Optional[str]] = mapped_column(nullable=True)
-    # room_id: Mapped[int] = mapped_column(ForeignKey('rooms.id'), nullable=True)
-    # comfort_name: Mapped[str] = mapped_column(ForeignKey('comforts.name'), nullable=True)
+    cipher: Mapped[Optional[int]] = mapped_column(BigInteger, unique=True, nullable=True)

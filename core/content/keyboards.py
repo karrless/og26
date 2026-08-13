@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Optional
 
 from core.content.texts import FORM_BUTTON, CANCEL_BUTTON, FAQ_BUTTON, BACK_BUTTON, OWN_QUESTION_BUTTON, FAQ_ASK_VK_URL, \
-    TG_OWN_QUESTION_BUTTON
+    TG_OWN_QUESTION_BUTTON, ROOMMATES_BUTTON
 
 MAX_ROWS_DEFAULT = 10
 MAX_ROWS_INLINE = 6
@@ -27,7 +27,8 @@ class Button:
 
 MENU_KEYBOARD = [
     [Button(FORM_BUTTON, "form:start", ButtonColor.POSITIVE)],
-    [Button(FAQ_BUTTON, "faq:start")]
+    [Button(FAQ_BUTTON, "faq:start", ButtonColor.PRIMARY)],
+    [Button(ROOMMATES_BUTTON, "cancel:start")],
 ]
 
 CANCEL_KEYS = [

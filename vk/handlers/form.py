@@ -43,6 +43,16 @@ async def form(message: Message, user: User):
     direction = await ask_paginated_choice(bl, wm, message, texts.FORM_ASK_DIRECTION, DIRECTIONS,
                                            prefix="direction")
     data = FormData(fio=fio, vk_id=vk_id, number=number, yes_no=yes_no, direction=str(direction))
+
+    await message.ctx_api.messages.set_activity(peer_id=message.peer_id, type="typing")
+
+    progress_message_id = await message.answer(texts.FORM_SUBMITTING)
+
     ok = await form_service.submit(data)
-    await message.answer(texts.FORM_DONE if ok else texts.FORM_NOT_FOUND)
+
+    await message.ctx_api.messages.edit(
+        peer_id=message.peer_id,
+        message_id=progress_message_id,
+        message=texts.FORM_DONE if ok else texts.FORM_NOT_FOUND,
+    )
     await menu.start_message(message, user)

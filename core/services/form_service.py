@@ -1,12 +1,9 @@
 from dataclasses import dataclass
 
 from core.content.texts import FORM_ASK_FIO, FORM_VK_FAILED, FORM_YES_NO_FAILED, FORM_NUMBER_FAILED
+from core.errors import FormValidationError
 from core.services.sheets_service import SheetsService
 from core.services.vk_resolver import resolve_vk_id
-
-
-class FormValidationError(Exception):
-    pass
 
 
 @dataclass

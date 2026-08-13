@@ -88,3 +88,13 @@ class UserRepository(BaseRepository[User]):
         await self.session.commit()
         await self.session.refresh(vk_user)
         return vk_user
+
+    async def get_by_cipher(self, cipher: int) -> User | None:
+        result = await self.session.execute(select(User).where(User.cipher == cipher))
+        return result.scalar_one_or_none()
+
+    async def get_by_ciphers(self, ciphers: list[int]) -> list[User]:
+        if not ciphers:
+            return []
+        result = await self.session.execute(select(User).where(User.cipher.in_(ciphers)))
+        return list(result.scalars().all())
