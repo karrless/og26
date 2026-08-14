@@ -26,7 +26,6 @@ async def seed_rooms(session) -> int:
         for cipher, comfort, room_number in _read_xlsx(path):
             if cipher in all_entries:
                 print(f"Дубликат шифра {cipher} (файл {path.name})")
-                continue
             all_entries[cipher] = (comfort, room_number)
 
     repo = RoomAssignmentRepository(session)
