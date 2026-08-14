@@ -63,7 +63,7 @@ SUPPORT_OUTSIDE_HOURS = (
 FAQ_ASK_VK_URL = "https://vk.com/im?media=&sel=-169197316"
 
 ROOMMATES_BUTTON = "Мои соседи"
-ROOMMATES_ASK_CIPHER = "Пришли уникальный номер"
+ROOMMATES_ASK_CIPHER = "Пришли свой уникальный номер"
 ROOMMATES_CIPHER_INVALID = "Номер должен быть числом, попробуй ещё раз."
 ROOMMATES_CIPHER_NOT_FOUND = "Такой номер не найден в списке заселения"
 ROOMMATES_CIPHER_TAKEN = "Этот номер уже привязан к другому аккаунту"
