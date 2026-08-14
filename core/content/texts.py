@@ -69,6 +69,6 @@ ROOMMATES_CIPHER_NOT_FOUND = "Такой номер не найден в спи�
 ROOMMATES_CIPHER_TAKEN = "Этот номер уже привязан к другому аккаунту"
 ROOMMATES_FILL_FORM_REMINDER = f'Кстати, вижу, ты не заполнял форму - пожалуйста, заполни её через "{FORM_BUTTON}"'
 ROOMMATES_NEW_NEIGHBOR = "🎉 У тебя новый сосед: {mention}"
-ROOMMATES_LIST_HEADER = "Твои соседи:"
+ROOMMATES_LIST_HEADER = "Твои соседи, которые зарегистрировались в боте:"
 ROOMMATES_YOUR_ROOM = "Ты живёшь в общежитии «{comfort}», комната {room_number}"
 ROOMMATES_NONE_YET = "Пока никто из твоих соседей не зарегистрировался в боте"
