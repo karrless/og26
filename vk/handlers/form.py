@@ -49,8 +49,8 @@ async def form(message: Message, user: User):
     ok = await form_service.submit(data)
 
     await message.ctx_api.messages.edit(
-        peer_id=message.peer_id,
-        conversation_message_id=progress_message.conversation_message_id,
+        peer_id=progress_message.peer_id,
+        cmid=progress_message.conversation_message_id,
         message=texts.FORM_DONE if ok else texts.FORM_NOT_FOUND,
     )
     await menu.start_message(message, user)
