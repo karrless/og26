@@ -31,11 +31,7 @@ class Question(Base):
     __tablename__ = "questions"
 
     __table_args__ = (
-        CheckConstraint(
-            "(topic_id IS NOT NULL) <> (subtopic_id IS NOT NULL)",
-            name="ck_question_parent",
-        ),
-        Index("uq_question_subtopic", "subtopic_id", unique=True, postgresql_where=text("subtopic_id IS NOT NULL")),
+        Index("uq_question_subtopic", "subtopic_id", unique=True),
     )
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
@@ -44,7 +40,6 @@ class Question(Base):
     attachment: Mapped[Optional[str]] = mapped_column(nullable=True)
 
     subtopic_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("subtopics.id", ondelete="CASCADE"),
-        nullable=True,
+        ForeignKey("subtopics.id", ondelete="CASCADE")
     )
     subtopic: Mapped[Optional["Subtopic"]] = relationship(back_populates="questions")
