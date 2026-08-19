@@ -4,6 +4,7 @@ import sys
 
 from loguru import logger
 import config
+from config import LOG_LEVEL
 
 logger.remove()
 logger.add(
@@ -14,9 +15,9 @@ logger.add(
 )
 
 if __name__ == '__main__':
-    logger.add('log/{time:DD_MM_YYYY}.log', level="INFO", rotation='12:00')
+    logger.add('log/{time:DD_MM_YYYY}.log', level=LOG_LEVEL, rotation='12:00')
     parser = argparse.ArgumentParser()
-    parser.add_argument("--bot", choices=["tg", "vk"], required=True)
+    parser.add_argument("--bot", choices=["tg", "vk", "api"], required=True)
     args = parser.parse_args()
 
     if args.bot == "tg":
@@ -35,3 +36,8 @@ if __name__ == '__main__':
 
         logger.info('VK бот запущен')
         bot.run()
+    elif args.bot == "api":
+        import uvicorn
+
+        logger.info(f'API запущен на {config.API_HOST}:{config.API_PORT}')
+        uvicorn.run("api.main:app", host=config.API_HOST, port=config.API_PORT, log_level=LOG_LEVEL)
