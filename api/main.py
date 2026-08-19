@@ -10,7 +10,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "http://og.dev.karrless.ru"
+        FRONT_HOST
     ],
     allow_credentials=True,
     allow_methods=["*"],
