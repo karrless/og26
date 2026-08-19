@@ -47,4 +47,4 @@ API_PASSWORD_HASH = get_env('API_PASSWORD_HASH')
 JWT_SECRET = get_env('JWT_SECRET')
 JWT_EXPIRE_MINUTES = int(get_env('JWT_EXPIRE_MINUTES'))
 
-FRONT_URI = os.getenv("FRONT_HOST", "http://localhost:5137")
+FRONT_URI = os.getenv("FRONT_URI", "http://localhost:5137")
