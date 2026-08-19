@@ -12,7 +12,7 @@ class Topic(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     title: Mapped[str]
 
-    subtopics: Mapped[list["Subtopic"]] = relationship(back_populates="topic")
+    subtopics: Mapped[list["Subtopic"]] = relationship(back_populates="topic", cascade="all, delete-orphan", passive_deletes=True)
 
 
 class Subtopic(Base):
@@ -21,10 +21,10 @@ class Subtopic(Base):
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     title: Mapped[str]
 
-    topic_id: Mapped[int] = mapped_column(ForeignKey("topics.id"))
+    topic_id: Mapped[int] = mapped_column(ForeignKey("topics.id", ondelete="CASCADE"))
 
     topic: Mapped["Topic"] = relationship(back_populates="subtopics")
-    questions: Mapped[list["Question"]] = relationship(back_populates="subtopic")
+    questions: Mapped[list["Question"]] = relationship(back_populates="subtopic", cascade="all, delete-orphan", passive_deletes=True)
 
 
 class Question(Base):
@@ -44,7 +44,7 @@ class Question(Base):
     attachment: Mapped[Optional[str]] = mapped_column(nullable=True)
 
     subtopic_id: Mapped[Optional[int]] = mapped_column(
-        ForeignKey("subtopics.id"),
+        ForeignKey("subtopics.id", ondelete="CASCADE"),
         nullable=True,
     )
     subtopic: Mapped[Optional["Subtopic"]] = relationship(back_populates="questions")
